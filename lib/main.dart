@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mymovies/dependency_injection.dart';
+import 'package:mymovies/features/auth/presentation/pages/login_page.dart';
 import 'package:mymovies/features/auth/presentation/pages/splash_screen.dart';
 import 'package:mymovies/features/favorite/presentation/blocs/favorit_bloc.dart';
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_bloc.dart';
@@ -35,7 +36,10 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.dmSansTextTheme(),
         ),
         home: const SplashPage(),
-        routes: {MainPage.routeName: (context) => const MainPage()},
+        routes: {
+          MainPage.routeName: (context) => const MainPage(),
+          LoginPage.routeName: (context) => const LoginPage(),
+        },
       ),
     );
   }

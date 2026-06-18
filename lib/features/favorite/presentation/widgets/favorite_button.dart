@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovies/features/favorite/presentation/blocs/favorit_bloc.dart';
 import 'package:mymovies/features/favorite/presentation/blocs/favorit_event.dart';
 import 'package:mymovies/features/favorite/presentation/blocs/favorit_state.dart';
-import 'package:mymovies/features/movie/domain/entities/movie.dart';
 
 class FavoriteButton extends StatelessWidget {
-  final Movie movie;
+  final dynamic movie;
 
   const FavoriteButton({super.key, required this.movie});
 

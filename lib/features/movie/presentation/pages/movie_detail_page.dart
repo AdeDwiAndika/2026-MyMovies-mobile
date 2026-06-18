@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovies/dependency_injection.dart';
+import 'package:mymovies/features/favorite/presentation/widgets/favorite_button.dart';
 import 'package:mymovies/features/movie/presentation/blocs/detail_movie_bloc.dart';
 import 'package:mymovies/features/movie/presentation/blocs/detail_movie_event.dart';
 import 'package:mymovies/features/movie/presentation/blocs/detail_movie_state.dart';
@@ -15,13 +16,6 @@ class MovieDetailPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl<MovieDetailBloc>()..add(FetchMovieDetail(movieId)),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Movie Detail"),
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.white,
-          centerTitle: true,
-          elevation: 0,
-        ),
         backgroundColor: const Color(0xFF09090F),
         body: BlocBuilder<MovieDetailBloc, MovieDetailState>(
           builder: (context, state) {
@@ -40,6 +34,12 @@ class MovieDetailPage extends StatelessWidget {
                   SliverAppBar(
                     expandedHeight: 350,
                     pinned: true,
+                    title: Text(
+                      movie.title,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    centerTitle: true,
+                    iconTheme: const IconThemeData(color: Colors.white),
                     flexibleSpace: FlexibleSpaceBar(
                       background: Image.network(
                         "https://image.tmdb.org/t/p/w500${movie.backdropPath}",
@@ -54,13 +54,20 @@ class MovieDetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            movie.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                movie.title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              FavoriteButton(movie: movie)
+                            ],
                           ),
 
                           const SizedBox(height: 10),
