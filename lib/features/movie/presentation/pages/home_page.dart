@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovies/core/config/api_config.dart';
 import 'package:mymovies/core/themes/app_colors.dart';
+import 'package:mymovies/features/favorite/presentation/blocs/favorit_bloc.dart';
+import 'package:mymovies/features/favorite/presentation/blocs/favorit_event.dart';
+import 'package:mymovies/features/favorite/presentation/widgets/favorite_button.dart';
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_event.dart';
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_state.dart';
 import 'package:mymovies/features/movie/presentation/pages/movie_detail_page.dart';
@@ -24,8 +27,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     context.read<PopularMoviesBloc>().add(FetchPopularMovies());
+    // ✅ TAMBAHAN: Load favorites saat HomePage dibuka
+    context.read<FavoriteBloc>().add(LoadFavorites());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -68,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                       child: CircularProgressIndicator(color: Colors.white),
                     );
                   }
-              
+
                   if (state is PopularMoviesError) {
                     return Center(
                       child: Text(
@@ -77,26 +86,28 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   }
-              
+
                   if (state is PopularMoviesLoaded) {
                     final movies = state.movies;
-              
+
                     return SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 16),
-              
+
                           // Categories
                           SizedBox(
                             height: 40,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
                               itemCount: categories.length,
                               itemBuilder: (context, index) {
                                 final selected = selectedCategory == index;
-              
+
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -117,21 +128,23 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     child: Text(
                                       categories[index],
-                                      style: const TextStyle(color: Colors.white),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 );
                               },
                             ),
                           ),
-              
+
                           const SizedBox(height: 20),
-              
+
                           // Hero Movie
                           HeroMovieCard(movie: movies.first),
-              
+
                           const SizedBox(height: 30),
-              
+
                           // For You
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -144,18 +157,20 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-              
+
                           const SizedBox(height: 16),
-              
+
                           SizedBox(
-                            height: 260,
+                            height: 280,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
                               itemCount: movies.length,
                               itemBuilder: (context, index) {
                                 final movie = movies[index];
-              
+
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -174,27 +189,49 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(16),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
                                           child: Image.network(
                                             "${ApiConfig.imageBaseUrl}${movie.posterPath}",
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                         const SizedBox(height: 8),
-                                        Text(
-                                          movie.title,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        Text(
-                                          "⭐ ${movie.voteAverage}",
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    movie.title,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "⭐ ${movie.voteAverage}",
+                                                    style: const TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                            FavoriteButton(movie: movie),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -203,13 +240,13 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           ),
-              
+
                           const SizedBox(height: 100),
                         ],
                       ),
                     );
                   }
-              
+
                   return const SizedBox();
                 },
               ),

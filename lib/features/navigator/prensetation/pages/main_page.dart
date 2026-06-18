@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymovies/features/favorite/presentation/pages/favorite_page.dart';
 import 'package:mymovies/features/movie/presentation/pages/home_page.dart';
 import 'package:mymovies/features/movie/presentation/pages/search_page.dart';
 import '../widgets/bottom_nav_bar.dart';
@@ -23,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     _pages = [
       HomePage(),
       SearchPage(),
-      Placeholder(), // Placeholder for Favorite page
+      FavoritesPage(),
     ];
   }
 

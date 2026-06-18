@@ -1,5 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:mymovies/core/services/dio_client.dart';
+import 'package:mymovies/core/utils/database_helper.dart';
+import 'package:mymovies/features/favorite/data/datasources/movie_local_data_source.dart';
+import 'package:mymovies/features/favorite/data/datasources/movie_local_data_source_impl.dart';
+import 'package:mymovies/features/favorite/data/repositories/favorite_movie_repostiory_impl.dart';
+import 'package:mymovies/features/favorite/domain/repositories/favorite_movie_repository.dart';
+import 'package:mymovies/features/favorite/presentation/blocs/favorit_bloc.dart';
 import 'package:mymovies/features/movie/data/datasources/movie_remote_data_source.dart';
 import 'package:mymovies/features/movie/data/repositories/movie_repository_impl.dart';
 import 'package:mymovies/features/movie/domain/repositories/movie_repository.dart';
@@ -44,4 +50,16 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SearchMovies(sl()));
 
   sl.registerFactory(() => SearchMovieBloc(sl()));
+
+  // ===== Local Data Source (Favorite) =====
+  sl.registerLazySingleton<FavoriteLocalDataSource>(
+    () => FavoriteLocalDataSourceImpl(sl<DatabaseHelper>()),
+  );
+
+  sl.registerLazySingleton<FavoriteRepository>(
+    () => FavoriteRepositoryImpl(sl<FavoriteLocalDataSource>()),
+  );
+
+  sl.registerFactory(() => FavoriteBloc(sl<FavoriteRepository>()));
+  sl.registerLazySingleton(() => DatabaseHelper());
 }
