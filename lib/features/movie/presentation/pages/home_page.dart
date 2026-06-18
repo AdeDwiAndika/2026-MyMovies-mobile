@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mymovies/core/config/api_config.dart';
+import 'package:mymovies/core/themes/app_colors.dart';
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_event.dart';
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_state.dart';
+import 'package:mymovies/features/movie/presentation/pages/movie_detail_page.dart';
 
 import '../blocs/popular_movie_bloc.dart';
 
@@ -29,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: const Color(0xFF09090F),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
           builder: (context, state) {
@@ -152,34 +154,45 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final movie = movies[index];
 
-                          return Container(
-                            width: 140,
-                            margin: const EdgeInsets.only(right: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    "${ApiConfig.imageBaseUrl}${movie.posterPath}",
-                                    fit: BoxFit.cover,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      MovieDetailPage(movieId: movie.id),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 140,
+                              margin: const EdgeInsets.only(right: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(
+                                      "${ApiConfig.imageBaseUrl}${movie.posterPath}",
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  movie.title,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    movie.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "⭐ ${movie.voteAverage}",
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
+                                  Text(
+                                    "⭐ ${movie.voteAverage}",
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -258,7 +271,14 @@ class _HeroMovieCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MovieDetailPage(movieId: movie.id),
+                      ),
+                    );
+                  },
                   child: const Text(
                     "Watch Now",
                     style: TextStyle(fontSize: 16, color: Colors.white),
