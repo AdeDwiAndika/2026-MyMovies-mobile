@@ -23,4 +23,9 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<List<Movie>> getSimilarMovies(int movieId) {
     return remoteDataSource.getSimilarMovies(movieId);
   }
+
+  @override
+  Future<List<Movie>> searchMovies(String query) {
+    return remoteDataSource.searchMovies(query);
+  }
 }
