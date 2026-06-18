@@ -18,4 +18,24 @@ class MovieModel extends Movie {
       voteAverage: (json['vote_average'] as num).toDouble(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'overview': overview,
+      'poster_path': posterPath,
+      'vote_average': voteAverage,
+    };
+  }
+
+  factory MovieModel.fromEntity(Movie movie) {
+    return MovieModel(
+      id: movie.id,
+      title: movie.title,
+      overview: movie.overview,
+      posterPath: movie.posterPath,
+      voteAverage: movie.voteAverage,
+    );
+  }
 }
