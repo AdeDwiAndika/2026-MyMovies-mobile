@@ -17,25 +17,26 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       (Icons.home_rounded, "Home"),
+      (Icons.search_rounded, "Search"),
       (Icons.favorite_border, "Favorite"),
-      (Icons.bookmark_border, "Saved"),
     ];
 
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(24),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             height: 70,
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(color: Colors.white.withOpacity(0.15)),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(items.length, (index) {
                 final selected = currentIndex == index;
 
