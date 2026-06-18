@@ -4,6 +4,7 @@ import 'package:mymovies/features/movie/presentation/blocs/search_movie_state.da
 import 'package:mymovies/features/movie/presentation/blocs/serach_movie_bloc.dart';
 import 'package:mymovies/features/movie/presentation/widgets/movie_list_item.dart';
 import 'package:mymovies/features/movie/presentation/widgets/search_bar.dart';
+import 'package:mymovies/shared/custom_app_bar.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -12,31 +13,14 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: CustomAppBar(
+        title: "MyMovies",
+        showProfile: true,
+        onProfileTap: () {},
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "MyMovies",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey.shade800,
-                    child: const Icon(Icons.person, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-
             const SearchBarWidget(),
 
             Expanded(

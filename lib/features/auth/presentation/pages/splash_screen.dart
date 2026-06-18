@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
       });
     });
     Future.delayed(const Duration(seconds: 1), () {
-      Navigator.pushReplacementNamed(context, '/main');
+      Navigator.pushReplacementNamed(context, '/login');
     });
   }
 

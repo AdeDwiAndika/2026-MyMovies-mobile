@@ -28,7 +28,7 @@ class BottomNavBar extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             height: 70,
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.08),
@@ -45,7 +45,7 @@ class BottomNavBar extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
+                      horizontal: 28,
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(

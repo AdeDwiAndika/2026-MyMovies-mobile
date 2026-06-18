@@ -4,6 +4,7 @@ import 'package:mymovies/features/favorite/presentation/blocs/favorit_bloc.dart'
 import 'package:mymovies/features/favorite/presentation/blocs/favorit_event.dart';
 import 'package:mymovies/features/favorite/presentation/blocs/favorit_state.dart';
 import 'package:mymovies/features/movie/presentation/pages/movie_detail_page.dart';
+import 'package:mymovies/shared/custom_app_bar.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
@@ -11,17 +12,10 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'My Favorites',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.black,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: CustomAppBar(
+        title: "MyMovies",
+        showProfile: true,
+        onProfileTap: () {},
       ),
       backgroundColor: Colors.black,
       body: BlocBuilder<FavoriteBloc, FavoriteState>(

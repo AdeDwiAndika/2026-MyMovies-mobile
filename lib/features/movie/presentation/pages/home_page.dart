@@ -9,6 +9,7 @@ import 'package:mymovies/features/movie/presentation/blocs/popular_movie_event.d
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_state.dart';
 import 'package:mymovies/features/movie/presentation/pages/movie_detail_page.dart';
 import 'package:mymovies/features/movie/presentation/widgets/hero_movie_card.dart';
+import 'package:mymovies/shared/custom_app_bar.dart';
 
 import '../blocs/popular_movie_bloc.dart';
 
@@ -28,7 +29,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<PopularMoviesBloc>().add(FetchPopularMovies());
-    // ✅ TAMBAHAN: Load favorites saat HomePage dibuka
     context.read<FavoriteBloc>().add(LoadFavorites());
   }
 
@@ -42,33 +42,57 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.background,
+      appBar: CustomAppBar(
+        title: "MyMovies",
+        showProfile: true,
+        onProfileTap: () {},
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "MyMovies",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
+            // Categories
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final selected = selectedCategory == index;
+
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedCategory = index;
+                      });
+                    },
+                    child: Container(
+                      width: 80,
+                      margin: const EdgeInsets.only(right: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: selected
+                            ? const Color(0xFF5669FF)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          categories[index],
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
-                  ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey.shade800,
-                    child: const Icon(Icons.person, color: Colors.white),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+
             Expanded(
               child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
                 builder: (context, state) {
@@ -95,50 +119,6 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 16),
-
-                          // Categories
-                          SizedBox(
-                            height: 40,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              itemCount: categories.length,
-                              itemBuilder: (context, index) {
-                                final selected = selectedCategory == index;
-
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedCategory = index;
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(right: 12),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 18,
-                                      vertical: 8,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: selected
-                                          ? const Color(0xFF5669FF)
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      categories[index],
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-
-                          const SizedBox(height: 20),
 
                           // Hero Movie
                           HeroMovieCard(movie: movies.first),
