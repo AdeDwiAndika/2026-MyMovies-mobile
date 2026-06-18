@@ -6,6 +6,7 @@ import '../models/movie_model.dart';
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getPopularMovies();
   Future<MovieDetailModel> getMovieDetail(int movieId);
+  Future<List<MovieModel>> getSimilarMovies(int movieId);
 }
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
@@ -30,5 +31,17 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
     );
 
     return MovieDetailModel.fromJson(response.data);
+  }
+
+  @override
+  Future<List<MovieModel>> getSimilarMovies(int movieId) async {
+    final response = await dio.get(
+      '/movie/$movieId/similar',
+      queryParameters: {'language': 'en-US', 'page': 1},
+    );
+
+    return (response.data['results'] as List)
+        .map((e) => MovieModel.fromJson(e))
+        .toList();
   }
 }

@@ -26,11 +26,14 @@ class MovieDetailPage extends StatelessWidget {
         body: BlocBuilder<MovieDetailBloc, MovieDetailState>(
           builder: (context, state) {
             if (state is MovieDetailLoading) {
-              return const Center(child: CircularProgressIndicator(color: Colors.white));
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              );
             }
 
             if (state is MovieDetailLoaded) {
               final movie = state.movie;
+              final similarMovies = state.similarMovies;
 
               return CustomScrollView(
                 slivers: [
@@ -103,6 +106,60 @@ class MovieDetailPage extends StatelessWidget {
                             style: const TextStyle(
                               color: Colors.white70,
                               height: 1.6,
+                            ),
+                          ),
+
+                          SizedBox(height: 20),
+                          Text(
+                            "Similar Movies",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          SizedBox(height: 16),
+
+                          SizedBox(
+                            height: 240,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: similarMovies.length,
+                              itemBuilder: (context, index) {
+                                final movie = similarMovies[index];
+
+                                return Container(
+                                  width: 130,
+                                  margin: const EdgeInsets.only(right: 12),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(
+                                          'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                          height: 180,
+                                          width: 130,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        movie.title,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],

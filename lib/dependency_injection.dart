@@ -5,6 +5,7 @@ import 'package:mymovies/features/movie/data/repositories/movie_repository_impl.
 import 'package:mymovies/features/movie/domain/repositories/movie_repository.dart';
 import 'package:mymovies/features/movie/domain/usecases/get_movie_detail.dart';
 import 'package:mymovies/features/movie/domain/usecases/get_popular_movie.dart';
+import 'package:mymovies/features/movie/domain/usecases/get_similiar_movie.dart';
 import 'package:mymovies/features/movie/presentation/blocs/detail_movie_bloc.dart';
 import 'package:mymovies/features/movie/presentation/blocs/popular_movie_bloc.dart';
 
@@ -32,5 +33,8 @@ Future<void> init() async {
   // ===== Detail Movie =====
   sl.registerLazySingleton(() => GetMovieDetail(sl()));
 
-  sl.registerFactory(() => MovieDetailBloc(sl()));
+  sl.registerFactory(
+    () => MovieDetailBloc(sl<GetMovieDetail>(), sl<GetSimilarMovies>()),
+  );
+  sl.registerLazySingleton(() => GetSimilarMovies(sl()));
 }

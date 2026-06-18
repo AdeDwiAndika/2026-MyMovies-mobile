@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
           builder: (context, state) {
             if (state is PopularMoviesLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(color: Colors.white,));
             }
 
             if (state is PopularMoviesError) {
