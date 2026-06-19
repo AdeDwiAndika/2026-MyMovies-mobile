@@ -1,4 +1,3 @@
-// features/favorite/data/datasources/favorite_local_data_source.dart
 import 'package:mymovies/features/movie/domain/entities/movie.dart';
 
 abstract class FavoriteLocalDataSource {

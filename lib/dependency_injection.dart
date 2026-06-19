@@ -20,25 +20,18 @@ import 'package:mymovies/features/movie/presentation/blocs/serach_movie_bloc.dar
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // Dio
   sl.registerLazySingleton(() => DioClient().dio);
 
-  // ===== Popular Movie =====
-  // DataSource
   sl.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSourceImpl(sl()),
   );
 
-  // Repository
   sl.registerLazySingleton<MovieRepository>(() => MovieRepositoryImpl(sl()));
 
-  // UseCase
   sl.registerLazySingleton(() => GetPopularMovies(sl()));
 
-  // Bloc
   sl.registerFactory(() => PopularMoviesBloc(sl()));
 
-  // ===== Detail Movie =====
   sl.registerLazySingleton(() => GetMovieDetail(sl()));
 
   sl.registerFactory(
@@ -51,7 +44,6 @@ Future<void> init() async {
 
   sl.registerFactory(() => SearchMovieBloc(sl()));
 
-  // ===== Local Data Source (Favorite) =====
   sl.registerLazySingleton<FavoriteLocalDataSource>(
     () => FavoriteLocalDataSourceImpl(sl<DatabaseHelper>()),
   );
@@ -61,5 +53,6 @@ Future<void> init() async {
   );
 
   sl.registerFactory(() => FavoriteBloc(sl<FavoriteRepository>()));
+
   sl.registerLazySingleton(() => DatabaseHelper());
 }

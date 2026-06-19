@@ -1,4 +1,3 @@
-// features/favorite/presentation/blocs/favorite_state.dart
 import 'package:equatable/equatable.dart';
 import 'package:mymovies/features/movie/domain/entities/movie.dart';
 

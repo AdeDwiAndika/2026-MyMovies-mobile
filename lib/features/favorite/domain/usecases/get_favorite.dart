@@ -1,4 +1,3 @@
-// features/favorite/domain/usecases/get_favorites.dart
 import 'package:mymovies/features/favorite/domain/repositories/favorite_movie_repository.dart';
 import 'package:mymovies/features/movie/domain/entities/movie.dart';
 
