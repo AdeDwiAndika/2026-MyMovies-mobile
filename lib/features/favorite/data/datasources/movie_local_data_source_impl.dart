@@ -1,4 +1,3 @@
-// features/favorite/data/datasources/favorite_local_data_source_impl.dart
 import 'package:mymovies/core/utils/database_helper.dart';
 import 'package:mymovies/features/favorite/data/datasources/movie_local_data_source.dart';
 import 'package:mymovies/features/movie/data/models/movie_model.dart';
@@ -14,7 +13,6 @@ class FavoriteLocalDataSourceImpl implements FavoriteLocalDataSource {
   Future<void> saveFavorite(Movie movie) async {
     final db = await databaseHelper.database;
     
-    // Konversi Movie ke MovieModel untuk di-save ke database
     final movieModel = MovieModel.fromEntity(movie);
 
     await db.insert(
@@ -39,7 +37,6 @@ class FavoriteLocalDataSourceImpl implements FavoriteLocalDataSource {
     final db = await databaseHelper.database;
     final result = await db.query('favorites');
     
-    // Konversi dari Map ke MovieModel (yang extends Movie)
     return result.map((e) => MovieModel.fromJson(e)).toList();
   }
 

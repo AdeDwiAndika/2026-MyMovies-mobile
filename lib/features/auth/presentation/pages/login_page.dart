@@ -12,24 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late TextEditingController usernameController;
-  late TextEditingController passwordController;
-  late GlobalKey<FormState> _formKey;
-
-  @override
-  void initState() {
-    super.initState();
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();
-    _formKey = GlobalKey<FormState>();
-  }
-
-  @override
-  void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
-          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -87,7 +68,6 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextField(
-                    controller: usernameController,
                     titleValue: 'Username',
                     maxLines: 1,
                     hintText: 'Masukan Username',
@@ -95,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 16.0),
                   CustomTextField(
-                    controller: passwordController,
                     titleValue: 'Kata Sandi',
                     maxLines: 1,
                     hintText: 'Masukan Kata Sandi',

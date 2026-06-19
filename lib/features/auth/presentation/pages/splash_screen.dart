@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymovies/core/themes/app_colors.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -26,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: AppColors.primary,
       body: Center(
         child: AnimatedOpacity(
           opacity: _opacity,
